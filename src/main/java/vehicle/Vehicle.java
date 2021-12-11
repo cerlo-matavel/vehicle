@@ -66,6 +66,7 @@ public abstract class Vehicle {
         }
         LOGGER.info(this.name+ " accelerated.");
     }*/
+
     public void brake() {
         LOGGER.info(this.name+" braking.");
     }
