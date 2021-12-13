@@ -27,11 +27,6 @@ public abstract class PassengerCargoVehicle extends Vehicle implements CargoVehi
     }
 
     @Override
-    public void setTotalPassengerSeats(int totalPassengerSeats) {
-        this.totalPassengerSeats = totalPassengerSeats;
-    }
-
-    @Override
     public int getTotalLoadedPassengers() {
         return this.person.size();
     }
@@ -65,11 +60,6 @@ public abstract class PassengerCargoVehicle extends Vehicle implements CargoVehi
     @Override
     public void unloadPassenger(int number){
         this.person.remove(number);
-    }
-
-    @Override
-    public ArrayList<Person> getPassenger() {
-        return person;
     }
 
     //CargoVehicle methods

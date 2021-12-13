@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public abstract class PassengerVehicle extends Vehicle implements PassengerVehicles {
 
-    //Passenger Atributes
+    //Passenger Attributes
     int totalPassengerSeats = 1;
     ArrayList<Person> person = new ArrayList<Person>();
 
@@ -16,11 +16,6 @@ public abstract class PassengerVehicle extends Vehicle implements PassengerVehic
     @Override
     public int getTotalPassengerSeats() {
         return totalPassengerSeats;
-    }
-
-    @Override
-    public void setTotalPassengerSeats(int totalPassengerSeats) {
-        this.totalPassengerSeats = totalPassengerSeats;
     }
 
     @Override
@@ -44,24 +39,24 @@ public abstract class PassengerVehicle extends Vehicle implements PassengerVehic
             }
             if(person.getWeight() + aaa + this.getTareGrossWeight().getTare() < getTareGrossWeight().getTare()){
                 this.person.add(person);
-                System.out.println("Passanger "+ person.getName()+" loaded");
+                System.out.println("Passenger "+ person.getName()+" loaded");
             }
             else{
-                throw new PassengerException("Passanger can't be loaded, because the car is overloaded");
+                throw new PassengerException("Passenger can't be loaded, because the car is overloaded.");
             }
         }
         else
-            throw new PassengerException("Passanger can't be loaded, because car is in full capacity");
+            throw new PassengerException("Passenger can't be loaded, because car is in full capacity.");
 
     }
 
     @Override
-    public void unloadPassenger(int number){
-        this.person.remove(number);
-    }
+    public void unloadPassenger(int number) throws PassengerException {
 
-    @Override
-    public ArrayList<Person> getPassenger() {
-        return person;
+        if(!this.person.isEmpty() || this.person.size() <= number){
+            this.person.remove(number);
+        }else{
+            throw new PassengerException("Vehicle is empty or the selected seat in unoccupied");
+        }
     }
 }
