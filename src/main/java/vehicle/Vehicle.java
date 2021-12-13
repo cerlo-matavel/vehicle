@@ -28,9 +28,9 @@ public abstract class Vehicle {
         return dimensions;
     }
 
-    public void setDimensions(Dimensions dimensions) {
+    /*public void setDimensions(Dimensions dimensions) {
         this.dimensions = dimensions;
-    }
+    }*/
 
     public String getColor() {
         return color;

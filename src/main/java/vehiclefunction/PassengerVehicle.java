@@ -1,6 +1,6 @@
 package vehiclefunction;
 
-import exceptions.PassangerException;
+import exceptions.PassengerException;
 import transported.Person;
 import vehicle.Vehicle;
 
@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public abstract class PassengerVehicle extends Vehicle implements PassengerVehicles {
 
-    //Passanger Atributes
+    //Passenger Atributes
     int totalPassengerSeats = 1;
     ArrayList<Person> person = new ArrayList<Person>();
 
-    //PassangerVehicle methods
+    //PassengerVehicle methods
     @Override
     public int getTotalPassengerSeats() {
         return totalPassengerSeats;
@@ -24,7 +24,7 @@ public abstract class PassengerVehicle extends Vehicle implements PassengerVehic
     }
 
     @Override
-    public int getTotalLoadedPassangers() {
+    public int getTotalLoadedPassengers() {
         return this.person.size();
     }
 
@@ -34,7 +34,7 @@ public abstract class PassengerVehicle extends Vehicle implements PassengerVehic
     }
 
     @Override
-    public void loadPassanger(Person person) throws PassangerException {
+    public void loadPassenger(Person person) throws PassengerException {
         if (totalPassengerSeats > this.person.size()) {
             //this.person.forEach((e)-> this.person.get(1).getWeight());
             float aaa = 0;
@@ -47,22 +47,21 @@ public abstract class PassengerVehicle extends Vehicle implements PassengerVehic
                 System.out.println("Passanger "+ person.getName()+" loaded");
             }
             else{
-
-                throw new PassangerException("Passanger can't be loaded, because the car is overloaded");
+                throw new PassengerException("Passanger can't be loaded, because the car is overloaded");
             }
         }
         else
-            throw new PassangerException("Passanger can't be loaded, because car is in full capacity");
+            throw new PassengerException("Passanger can't be loaded, because car is in full capacity");
 
     }
 
     @Override
-    public void unloadPassanger(int number){
+    public void unloadPassenger(int number){
         this.person.remove(number);
     }
 
     @Override
-    public ArrayList<Person> getPassanger() {
+    public ArrayList<Person> getPassenger() {
         return person;
     }
 }

@@ -1,6 +1,6 @@
 package vehiclefunction;
 
-import exceptions.PassangerException;
+import exceptions.PassengerException;
 import transported.Person;
 
 import java.util.ArrayList;
@@ -11,13 +11,13 @@ public interface PassengerVehicles {
 
     void setTotalPassengerSeats(int totalPassengerSeats);
 
-    int getTotalLoadedPassangers();
+    int getTotalLoadedPassengers();
 
     int getTotalVacantSeats();
 
-    void loadPassanger(Person person) throws PassangerException;
+    void loadPassenger(Person person) throws PassengerException;
 
-    void unloadPassanger(int number);
+    void unloadPassenger(int number);
 
-    ArrayList<Person> getPassanger();
+    ArrayList<Person> getPassenger();
 }

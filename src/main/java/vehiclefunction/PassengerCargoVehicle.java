@@ -1,6 +1,6 @@
 package vehiclefunction;
 
-import exceptions.PassangerException;
+import exceptions.PassengerException;
 import exceptions.VehicleCapacityException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,16 +12,15 @@ import java.util.ArrayList;
 
 public abstract class PassengerCargoVehicle extends Vehicle implements CargoVehicles, PassengerVehicles {
 
-    //Passanger Atributes
-    int totalPassengerSeats = 1;
-    ArrayList<Person> person = new ArrayList<Person>();
+    //Passenger Attributes
+    int totalPassengerSeats;
+    ArrayList<Person> person = new ArrayList<>();
 
-    //CargoVariables
+    //Cargo Attributes
     private static final Logger LOGGER = LogManager.getLogger(PassengerCargoVehicle.class);
-    private float totalCargoCapacity = 20000;
-    ArrayList<Cargo> cargo = new ArrayList<Cargo>();
+    ArrayList<Cargo> cargo = new ArrayList<>();
 
-    //PassangerVehicle methods
+    //PassengerVehicle methods
     @Override
     public int getTotalPassengerSeats() {
         return totalPassengerSeats;
@@ -33,7 +32,7 @@ public abstract class PassengerCargoVehicle extends Vehicle implements CargoVehi
     }
 
     @Override
-    public int getTotalLoadedPassangers() {
+    public int getTotalLoadedPassengers() {
         return this.person.size();
     }
 
@@ -43,7 +42,7 @@ public abstract class PassengerCargoVehicle extends Vehicle implements CargoVehi
     }
 
     @Override
-    public void loadPassanger(Person person) throws PassangerException {
+    public void loadPassenger(Person person) throws PassengerException {
         if (totalPassengerSeats > this.person.size()) {
             float aaa = 0;
             for (Person var :
@@ -52,81 +51,52 @@ public abstract class PassengerCargoVehicle extends Vehicle implements CargoVehi
             }
             if(person.getWeight() + aaa + this.getTareGrossWeight().getTare() < getTareGrossWeight().getTare()){
                 this.person.add(person);
-                System.out.println("Passanger "+ person.getName()+" loaded");
+                System.out.println("Passenger "+ person.getName()+" loaded");
             }
             else{
-
-                throw new PassangerException("Passanger can't be loaded, because the car is overloaded");
+                throw new PassengerException("Passenger can't be loaded, because the car is overloaded");
             }
         }
-        else
-            throw new PassangerException("Passanger can't be loaded, because car is in full capacity");
-
+        else {
+            throw new PassengerException("Passenger can't be loaded, because car is in full capacity");
+        }
     }
 
     @Override
-    public void unloadPassanger(int number){
+    public void unloadPassenger(int number){
         this.person.remove(number);
     }
 
     @Override
-    public ArrayList<Person> getPassanger() {
+    public ArrayList<Person> getPassenger() {
         return person;
-    }
-
-    //cargo Weight
-    private float totoalCargoWeight(){
-        float totalWeight = 0;
-        if (!this.cargo.isEmpty()) {
-
-            for (Cargo var :
-                    this.cargo) {
-                totalWeight += var.getWeight();
-            }
-            return totalWeight;
-        }
-        return 0;
     }
 
     //CargoVehicle methods
     @Override
     public void loadCargo(Cargo cargo) throws VehicleCapacityException {
 
-        //Check if car is on maxWeight
-        if (totoalCargoWeight()
-                + this.getTareGrossWeight().getTare()
-                + cargo.getWeight() < this.getTareGrossWeight().getGrossWeight() ){
-            LOGGER.warn(this.getName() + " loaded cargo " + cargo.getDescription() );
-
+        //Check if car is at full capacity
+        if (this.getTareGrossWeight().getTotalAvailableCapacity() >= cargo.getWeight()){
+            this.cargo.add(cargo);
+            this.getTareGrossWeight().setWeight(this.getTareGrossWeight().getWeight() +
+                    cargo.getWeight());
+            LOGGER.warn(this.getName() + " loaded cargo.");
         }else{
-            VehicleCapacityException a = new VehicleCapacityException("The vehicle is full.");
-            LOGGER.fatal(this.getName() + " tried to unload an empty vehicle.",a);
-            throw a;
+            throw new VehicleCapacityException("The vehicle is full or cargo if over the " +
+                    "available capacity of the vehicle.");
         }
-        //System.out.println(totalAvailableCapacity);
     }
-
 
     public void unloadCargo(int cargoPosition) throws VehicleCapacityException {
 
+        //check if CargoVehicle is empty
         if (!this.cargo.isEmpty()) {
             this.cargo.remove(cargoPosition);
             LOGGER.warn(this.getName() + " unloaded cargo " + cargo);
         } else {
-            VehicleCapacityException a = new VehicleCapacityException("The vehicle is emply.");
-            LOGGER.fatal(this.getName() + " tried to unload an empty vehicle.",a);
-            throw a;
+            throw new VehicleCapacityException("The vehicle is empty.");
         }
-
     }
 
-    @Override
-    public float getTotalCargoCapacity() {
-        return totalCargoCapacity;
-    }
-
-    @Override
-    public float getTotalAvailableCapacity() {
-        return this.getTareGrossWeight().getGrossWeight() - totoalCargoWeight();
-    }
 }

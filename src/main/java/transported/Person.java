@@ -1,46 +1,36 @@
 package transported;
 
 import measurements.Dimensions;
+import measurements.Weight;
 
 public class Person {
 
     private String name;
-    private short weight;
-    private Dimensions dimensions;
+    private Weight weight;
+    private Dimensions height;
 
-    public Dimensions getDimensions() {
-        return dimensions;
-    }
-
-    public void setDimensions(Dimensions dimensions) {
-        this.dimensions = dimensions;
-    }
-
-    public Person(String passangerName) {
-        this.name = passangerName;
+    public Person(String name, short weight, float height) {
+        this.name = name;
+        this.weight = new Weight(weight);
+        this.height = new Dimensions(height);
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public double getWeight() {
+        return weight.getWeight();
     }
 
-    public short getWeight() {
-        return weight;
-    }
-
-    public void setWeight(short weight) {
-        this.weight = weight;
+    public float getHeight() {
+        return height.getHeight();
     }
 
     @Override
     public String toString() {
-        return "Passanger{" +
-                "passangerName='" + name + '\'' +
-                ", passangerWeight=" + weight +
-                '}';
+        return "name='" + name + '\'' +
+                ", weight=" + weight +
+                ", height=" + height;
     }
 }
