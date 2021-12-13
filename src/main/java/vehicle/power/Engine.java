@@ -27,7 +27,6 @@ public abstract class Engine {
                     , ((CombustionEngine) engine).getTotalEngines()
                     , ((CombustionEngine) engine).getTankCapacity());
         }
-
         return null;
     }
 }
