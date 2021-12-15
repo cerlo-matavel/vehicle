@@ -22,11 +22,7 @@ public class TareGrossWeight extends Weight{
         return this.tare + this.grossWeight;
     }
 
-    public double getTotalCapacity() {
-        return this.tare + this.grossWeight;
-    }
-
-    public double getTotalAvailableCapacity() {
+    public double getAvailableWeight() {
         return this.grossWeight - this.getWeight();
     }
 

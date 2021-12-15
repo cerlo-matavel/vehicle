@@ -19,8 +19,8 @@ public class Cargo{
         return weight.getWeight();
     }
 
-    public String getDescription() {
-        return description;
+    public Dimensions getDimensions() {
+        return dimensions;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class Cargo{
         return "Cargo: " +
                 "weight=" + weight +
                 ", dimensions=" + dimensions +
-                ", description=" + description;
+                ", description=" + description + "\n";
     }
 }
