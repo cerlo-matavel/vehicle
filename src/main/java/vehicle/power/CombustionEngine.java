@@ -44,7 +44,7 @@ public class CombustionEngine extends Engine {
     }
 
     @Override
-    public void accelerate(Depth depth, Duration duration) {
+    public void accelerate(Depth depth, Duration duration) throws LowTankException {
         byte tankLevel = (byte) Math.round(this.getLevel() - (depth.getDepth() * duration.getSeconds() * 0.8));
         if (tankLevel <= 0){
             throw new LowTankException("Your tank is empty.");

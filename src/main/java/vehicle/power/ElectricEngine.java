@@ -1,6 +1,7 @@
 package vehicle.power;
 
 import exceptions.LowBatteryException;
+import exceptions.LowTankException;
 
 import java.time.Duration;
 
@@ -21,7 +22,7 @@ public class ElectricEngine extends Engine {
     }
 
     @Override
-    public void accelerate(Depth depth, Duration duration) throws LowBatteryException {
+    public void accelerate(Depth depth, Duration duration) throws LowBatteryException{
         byte tankLevel = (byte) Math.round(this.getLevel() - (depth.getDepth() * duration.getSeconds() * 0.8));
         if (tankLevel <= 0){
             throw new LowBatteryException("Your battery is dead.");

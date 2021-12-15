@@ -1,6 +1,7 @@
 package vehicle.power;
 
 import exceptions.LowBatteryException;
+import exceptions.LowTankException;
 
 import java.time.Duration;
 
@@ -44,7 +45,7 @@ public abstract class Engine {
         this.name = name;
     }
 
-    public abstract void accelerate(Depth depth, Duration duration) throws LowBatteryException;
+    public abstract void accelerate(Depth depth, Duration duration) throws RuntimeException;
 
     public static Engine copy(Engine engine) {
         if (engine instanceof ElectricEngine) {
