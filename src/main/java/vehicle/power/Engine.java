@@ -1,8 +1,5 @@
 package vehicle.power;
 
-import exceptions.LowBatteryException;
-import exceptions.LowTankException;
-
 import java.time.Duration;
 
 public abstract class Engine {

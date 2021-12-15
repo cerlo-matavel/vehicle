@@ -1,6 +1,5 @@
 package vehicle.power;
 
-import exceptions.LowBatteryException;
 import exceptions.LowTankException;
 
 import java.time.Duration;
@@ -41,6 +40,10 @@ public class CombustionEngine extends Engine {
 
     public int getTankCapacity() {
         return tankCapacity;
+    }
+
+    public float getAvailableCapacity(){
+        return (this.getLevel() * this.tankCapacity)/100;
     }
 
     @Override
