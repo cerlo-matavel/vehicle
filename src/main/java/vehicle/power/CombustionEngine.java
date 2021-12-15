@@ -1,5 +1,10 @@
 package vehicle.power;
 
+import exceptions.LowBatteryException;
+import exceptions.LowTankException;
+
+import java.time.Duration;
+
 public class CombustionEngine extends Engine {
 
     public enum FuelType {
@@ -19,16 +24,11 @@ public class CombustionEngine extends Engine {
     private final FuelType fuelType;
     private final short totalEngines;
     private final int tankCapacity;
-    private short fuelTankLevel = 100;
 
     public CombustionEngine(FuelType fuelType, int totalEngines, int tankCapacity) {
         this.fuelType = fuelType;
         this.totalEngines = (short) totalEngines;
         this.tankCapacity = tankCapacity;
-    }
-
-    public short getFuelTankLevel() {
-        return fuelTankLevel;
     }
 
     public short getTotalEngines() {
@@ -43,9 +43,18 @@ public class CombustionEngine extends Engine {
         return tankCapacity;
     }
 
-    public void fillTank(){
-        fuelTankLevel = (short)100;
-        System.out.println("Tank filled.");
+    @Override
+    public void accelerate(Depth depth, Duration duration) {
+        byte tankLevel = (byte) Math.round(this.getLevel() - (depth.getDepth() * duration.getSeconds() * 0.8));
+        if (tankLevel <= 0){
+            throw new LowTankException("Your tank is empty.");
+        }else if (this.getLevel() <= 15){
+            System.out.println("Your tank is almost empty, you should refill it.");
+            this.setLevel(tankLevel);
+        }
+        else{
+            this.setLevel(tankLevel);
+        }
     }
 
     @Override
@@ -53,7 +62,7 @@ public class CombustionEngine extends Engine {
         return "CombustionEngine{" +
                 "totalEngines=" + totalEngines +
                 ", fuelType='" + fuelType + '\'' +
-                ", fuelTankLevel=" + fuelTankLevel +
+                ", fuelTankLevel=" + this.getLevel() +
                 '}';
     }
 }

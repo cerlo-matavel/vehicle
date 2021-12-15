@@ -1,35 +1,44 @@
 package vehicle.power;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import exceptions.LowBatteryException;
+
+import java.time.Duration;
 
 public class ElectricEngine extends Engine {
 
-    private int batteryCapacity = 10_000, batteryLevel = 100;
-    private static final Logger LOGGER =  LogManager.getLogger(ElectricEngine.class);
+    private float batteryCapacity;
 
-    public void rechargeBattery(){
-        //LOGGER.info(+ "Battery charged");
-        this.batteryLevel = 100;
-    }
-
-    public ElectricEngine(int batteryCapacity) {
+    public ElectricEngine(float batteryCapacity) {
         this.batteryCapacity = batteryCapacity;
     }
 
-    public int getBatteryCapacity() {
+    public float getBatteryCapacity() {
         return batteryCapacity;
     }
 
-    public int getBatteryLevel() {
-        return batteryLevel;
+    public float getAvailableCapacity(){
+        return (this.getLevel() * this.batteryCapacity)/100;
+    }
+
+    @Override
+    public void accelerate(Depth depth, Duration duration) throws LowBatteryException {
+        byte tankLevel = (byte) Math.round(this.getLevel() - (depth.getDepth() * duration.getSeconds() * 0.8));
+        if (tankLevel <= 0){
+            throw new LowBatteryException("Your battery is dead.");
+        }else if (this.getLevel() <= 15){
+            System.out.println("Your battery is low, you should recharge it.");
+            this.setLevel(tankLevel);
+        }
+        else{
+            this.setLevel(tankLevel);
+        }
     }
 
     @Override
     public String toString() {
         return "ElectricEngine{" +
                 "batteryCapacity=" + batteryCapacity +
-                ", batteryLevel=" + batteryLevel +
+                ", batteryLevel=" + this.getLevel() +
                 '}';
     }
 }
