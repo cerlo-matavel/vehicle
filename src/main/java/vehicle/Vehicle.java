@@ -1,12 +1,9 @@
 package vehicle;
 
-import measurements.Dimensions;
 import measurements.Space;
 import measurements.TareGrossWeight;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import vehicle.power.CombustionEngine;
-import vehicle.power.ElectricEngine;
 import vehicle.power.Engine;
 
 public abstract class Vehicle {
@@ -15,24 +12,29 @@ public abstract class Vehicle {
     protected Engine engine;
     private String color;
     private Space dimensions;
+
     private static final Logger LOGGER = LogManager.getLogger(Vehicle.class);
 
+    //TareGrossWeight
     public TareGrossWeight getTareGrossWeight() {
         return tareGrossWeight;
     }
 
+    //protected
     public void setTareGrossWeight(TareGrossWeight tareGrossWeight) {
         this.tareGrossWeight = tareGrossWeight;
     }
 
+    //Dimensions
     public Space getDimensions() {
         return dimensions;
     }
 
-    public void setDimensions(Space dimensions) {
+    protected void setDimensions(Space dimensions) {
         this.dimensions = dimensions;
     }
 
+    //Color
     public String getColor() {
         return color;
     }
@@ -41,19 +43,17 @@ public abstract class Vehicle {
         this.color = color;
     }
 
+    //Engine
     public Engine getEngine() {
         return engine;
     }
 
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-    }
-
+    //Name
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 

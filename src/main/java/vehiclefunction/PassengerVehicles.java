@@ -1,6 +1,8 @@
 package vehiclefunction;
 
+import exceptions.EmptyPositionException;
 import exceptions.PassengerException;
+import exceptions.WeightException;
 import transported.Person;
 
 public interface PassengerVehicles {
@@ -11,7 +13,7 @@ public interface PassengerVehicles {
 
     int getTotalVacantSeats();
 
-    void loadPassenger(Person person) throws PassengerException;
+    void loadPassenger(Person person) throws PassengerException, WeightException;
 
-    void unloadPassenger(int number) throws PassengerException;
+    void unloadPassenger(int number) throws EmptyPositionException;
 }

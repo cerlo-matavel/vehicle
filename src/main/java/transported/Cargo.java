@@ -9,10 +9,17 @@ public class Cargo{
     private Dimensions dimensions;
     private String description;
 
-    public Cargo(double weight, Dimensions dimensions, String description) {
-        this.weight = new Weight(weight);
+    public Cargo(Weight weight, Dimensions dimensions, String description) {
+        this.weight = weight;
         this.dimensions = dimensions;
         this.description = description;
+    }
+
+    public static Cargo copy(Cargo cargo){
+        return new Cargo(new Weight(cargo.getWeight()),
+                new Dimensions(cargo.getDimensions().getLength(), cargo.getDimensions().getWidth(),
+                        cargo.getDimensions().getHeight()),
+                cargo.description);
     }
 
     public double getWeight() {

@@ -1,6 +1,11 @@
 package vehiclefunction;
 
+import exceptions.EmptyPositionException;
 import exceptions.PassengerException;
+import exceptions.SizeException;
+import exceptions.WeightException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import transported.Person;
 import vehicle.Vehicle;
 
@@ -9,8 +14,13 @@ import java.util.ArrayList;
 public abstract class PassengerVehicle extends Vehicle implements PassengerVehicles {
 
     //Passenger Attributes
-    int totalPassengerSeats = 1;
-    ArrayList<Person> person = new ArrayList<Person>();
+    private static final Logger LOGGER = LogManager.getLogger(PassengerVehicle.class);
+    private int totalPassengerSeats = 1;
+    private ArrayList<Person> person = new ArrayList<Person>();
+
+    public PassengerVehicle(int totalPassengerSeats) {
+        this.totalPassengerSeats = totalPassengerSeats;
+    }
 
     //PassengerVehicle methods
     @Override
@@ -24,39 +34,42 @@ public abstract class PassengerVehicle extends Vehicle implements PassengerVehic
     }
 
     @Override
-    public int getTotalVacantSeats(){
-        return totalPassengerSeats - this.person.size();
+    public int getTotalVacantSeats() {
+        return totalPassengerSeats - getTotalLoadedPassengers();
     }
 
     @Override
-    public void loadPassenger(Person person) throws PassengerException {
-        if (totalPassengerSeats > this.person.size()) {
-            //this.person.forEach((e)-> this.person.get(1).getWeight());
-            float aaa = 0;
-            for (Person var :
-                    this.person) {
-                aaa += var.getWeight();
-            }
-            if(person.getWeight() + aaa + this.getTareGrossWeight().getTare() < getTareGrossWeight().getTare()){
+    public void loadPassenger(Person person) throws PassengerException, WeightException{
+
+        //Checking vacant seats in the vehicle
+        if (0 < getTotalVacantSeats()) {
+
+            //Checking person's weight compared to the available weight
+            if (this.getTareGrossWeight().getAvailableWeight() > person.getWeight()) {
                 this.person.add(person);
-                System.out.println("Passenger "+ person.getName()+" loaded");
+                this.getTareGrossWeight().setWeight(this.getTareGrossWeight().getWeight()
+                        + person.getWeight());
+                LOGGER.warn("Passenger " + person.getName() + " loaded");
+
+            } else {
+                throw new WeightException("Passenger can't be loaded, because his weight would exceed" +
+                        " the maximum weight the vehicle can carry.");
             }
-            else{
-                throw new PassengerException("Passenger can't be loaded, because the car is overloaded.");
-            }
-        }
-        else
-            throw new PassengerException("Passenger can't be loaded, because car is in full capacity.");
+        } else
+            throw new PassengerException("Passenger can't be loaded, because the vehicle is at full capacity.");
 
     }
 
     @Override
-    public void unloadPassenger(int number) throws PassengerException {
-
-        if(!this.person.isEmpty() || this.person.size() <= number){
-            this.person.remove(number);
-        }else{
-            throw new PassengerException("Vehicle is empty or the selected seat in unoccupied");
+    public void unloadPassenger(int number) throws EmptyPositionException {
+        Person removed;
+        try {
+            removed = this.person.get(number - 1);
+            this.person.remove(number-1);
+            this.getTareGrossWeight().setWeight(this.getTareGrossWeight().getWeight() - removed.getWeight());
+            LOGGER.warn(this.getName() + " unloaded cargo\n" + removed);
+        } catch (IndexOutOfBoundsException e){
+            throw new EmptyPositionException("Vehicle is empty or the selected seat in unoccupied");
         }
     }
 }

@@ -8,8 +8,8 @@ public class ElectricEngine extends Engine {
 
     private float batteryCapacity;
 
-    public ElectricEngine(float batteryCapacity) {
-        this.batteryCapacity = batteryCapacity;
+    public ElectricEngine(double batteryCapacity) {
+        this.batteryCapacity = (float) batteryCapacity;
     }
 
     public float getBatteryCapacity() {

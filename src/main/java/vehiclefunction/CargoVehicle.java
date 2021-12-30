@@ -18,8 +18,8 @@ public abstract class CargoVehicle extends Vehicle implements CargoVehicles{
 
     //CargoVehicle methods
     @Override
-    public void loadCargo(Cargo cargo) throws WeightException, SizeException {
-
+    public void loadCargo(Cargo cargoIn) throws WeightException, SizeException {
+        Cargo cargo = Cargo.copy(cargoIn);
         //Check if car is at full weight capacity
         if (this.getTareGrossWeight()
                         .getAvailableWeight() >= cargo.getWeight()){
